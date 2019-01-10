@@ -1,11 +1,13 @@
 package com.richards.jonathan.postapp.domain
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.richards.jonathan.postapp.data.database.PostDatabase
 import com.richards.jonathan.postapp.data.entity.Post
 import com.richards.jonathan.postapp.data.entity.PostDetails
-import com.richards.jonathan.postapp.data.network.NetworkCallHelper
 import com.richards.jonathan.postapp.data.network.contract.NetworkControllerContract
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class PostRepository constructor(private val networkController: NetworkControllerContract,
                                  private val database: PostDatabase) : PostRepositoryContract {
@@ -21,10 +23,26 @@ class PostRepository constructor(private val networkController: NetworkControlle
         return database.getPostDao().getPostDetails(postId)
     }
 
-    override fun fetchAndSaveData(): Boolean {
-        val postResponse = NetworkCallHelper<List<Post>>().makeCall(networkController.getPosts())
+    override fun fetchAndSaveData(): MutableLiveData<Boolean> {
 
-        postResponse.observe()
+        val isComplete = MutableLiveData<Boolean>()
+
+//        val postResponse =
+
+
+        GlobalScope.launch {
+
+            var responsePost = networkController.getPosts().await()
+            var responseComments = networkController.getComments().await()
+            var responseUsers = networkController.getUsers().await()
+
+            if (responseComments.isSuccessful && responsePost.isSuccessful && responseUsers.isSuccessful ){
+
+            }
+        }
+
+
+        return isComplete
 
     }
 

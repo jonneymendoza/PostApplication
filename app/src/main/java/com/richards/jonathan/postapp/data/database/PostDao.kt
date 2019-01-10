@@ -2,6 +2,7 @@ package com.richards.jonathan.postapp.data.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.Query
 import com.richards.jonathan.postapp.data.entity.Post
 import com.richards.jonathan.postapp.data.entity.PostDetails
@@ -19,6 +20,9 @@ interface PostDao {
 
     @Query("SELECT COUNT (*) FROM Comment" )
     fun getCommentCount(postId: Int) : LiveData<Int>
+
+    @Insert()
+    fun savePosts(posts : List<Post>)
 
 
 }
