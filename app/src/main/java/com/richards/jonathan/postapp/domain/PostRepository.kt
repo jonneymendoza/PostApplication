@@ -30,6 +30,16 @@ class PostRepository constructor(private val networkController: NetworkControlle
         GlobalScope.launch {
 
             try {
+                val responseUsers = networkController.getUsers().await()
+                val responsePost = networkController.getPosts().await()
+                val responseComments = networkController.getComments().await()
+                
+                if (responseComments.isSuccessful && responsePost.isSuccessful && responseUsers.isSuccessful) {
+                    database.getPostDao().saveAllData(responseUsers.body()!!, responsePost.body()!!, responseComments.body()!!)
+                    isComplete.postValue(true)
+                } else {
+                    isComplete.postValue(false)
+                }
 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -37,21 +47,7 @@ class PostRepository constructor(private val networkController: NetworkControlle
                 isComplete.postValue(false)
             }
 
-            val responsePost = networkController.getPosts().await()
-            val responseComments = networkController.getComments().await()
-            val responseUsers = networkController.getUsers().await()
-
-            if (responseComments.isSuccessful && responsePost.isSuccessful && responseUsers.isSuccessful) {
-                database.getPostDao().saveComments(responseComments.body()!!)
-                database.getPostDao().savePosts(responsePost.body()!!)
-                database.getPostDao().saveUsers(responseUsers.body()!!)
-                isComplete.postValue(true)
-            } else {
-                isComplete.postValue(false)
-            }
         }
-
-
         return isComplete
 
     }

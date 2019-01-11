@@ -3,6 +3,8 @@ package com.richards.jonathan.postapp.ui
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import com.richards.jonathan.postapp.R
+import com.richards.jonathan.postapp.ui.screen.PostDetailsFragment
+import com.richards.jonathan.postapp.ui.screen.PostListFragment
 
 class MainActivity : FragmentActivity() {
 
@@ -18,7 +20,7 @@ class MainActivity : FragmentActivity() {
                 .add(R.id.fragment_content, fragment, fragment.javaClass.simpleName).commit()
     }
 
-    fun goToDetailsScreen(postId: Int) {
+    fun goToDetailsScreen(postId: String) {
         navigateToFragment(PostDetailsFragment.createFragment(postId))
 
     }

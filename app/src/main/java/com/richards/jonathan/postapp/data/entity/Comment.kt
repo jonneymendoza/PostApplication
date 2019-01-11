@@ -10,8 +10,8 @@ import androidx.room.PrimaryKey
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("postId")
 )))
-data class Comment(val postId: Int,
-                   @PrimaryKey val id: Int,
+data class Comment(val postId: String,
+                   @PrimaryKey val id: String,
                    val name: String,
                    val email: String,
                    val body: String)

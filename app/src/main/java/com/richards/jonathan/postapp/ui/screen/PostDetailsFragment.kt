@@ -1,4 +1,4 @@
-package com.richards.jonathan.postapp.ui
+package com.richards.jonathan.postapp.ui.screen
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.richards.jonathan.postapp.R
+import com.richards.jonathan.postapp.ui.BaseFragment
+import com.richards.jonathan.postapp.ui.viewmodel.PostViewModel
 import kotlinx.android.synthetic.main.post_details_layout.*
 import org.koin.android.ext.android.inject
 
@@ -17,10 +19,10 @@ class PostDetailsFragment : BaseFragment() {
 
         const val POST_ID_EXTRA = "post id"
 
-        fun createFragment(postId: Int): PostDetailsFragment {
+        fun createFragment(postId: String): PostDetailsFragment {
             val bundle = Bundle()
 
-            bundle.putInt(POST_ID_EXTRA, postId)
+            bundle.putString(POST_ID_EXTRA, postId)
             val postdetailsFragment = PostDetailsFragment()
 
             postdetailsFragment.arguments = bundle
@@ -38,9 +40,12 @@ class PostDetailsFragment : BaseFragment() {
         val postId = arguments!!.getInt(POST_ID_EXTRA)
 
         viewModel.getPostDetails(postId).observe(this, Observer {
-            titleText.text = it.title
-            bodyText.text = it.body
-            usernameText.text = it.username
+            it?.let {
+                titleText.text = it.title
+                bodyText.text = it.body
+                usernameText.text = it.username
+            }
+
         })
 
         viewModel.getCommentCount(postId).observe(this, Observer {

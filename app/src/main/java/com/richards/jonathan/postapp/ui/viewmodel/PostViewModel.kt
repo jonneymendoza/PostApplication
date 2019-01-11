@@ -1,4 +1,4 @@
-package com.richards.jonathan.postapp.ui
+package com.richards.jonathan.postapp.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
         childColumns = arrayOf("userId"),
         onDelete = ForeignKey.CASCADE
 )))
-data class Post(var userId: Int,
-                @PrimaryKey var id: Int,
+data class Post(var userId: String,
+                @PrimaryKey var id: String,
                 var title: String,
                 var body: String)
