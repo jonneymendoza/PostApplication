@@ -14,6 +14,8 @@ class PostViewModel constructor(private val getAllDataUseCase: GetAllDataUseCase
                                 private val getPostDetailsUseCase: GetPostDetailsUseCase,
                                 private val getCommentCountUseCase: GetCommentCountUseCase) : ViewModel() {
 
+    private lateinit var hasDataBeenFetched: LiveData<Boolean>
+
     fun getPostList(): LiveData<List<Post>> {
         return getPostListUseCase.getPostList()
     }
@@ -27,7 +29,8 @@ class PostViewModel constructor(private val getAllDataUseCase: GetAllDataUseCase
     }
 
     fun fetchAllData(): LiveData<Boolean> {
-        return getAllDataUseCase.fetchAllData()
+        hasDataBeenFetched = getAllDataUseCase.fetchAllData()
+        return hasDataBeenFetched
     }
 
 }

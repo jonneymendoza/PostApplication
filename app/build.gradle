@@ -66,7 +66,12 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
-    androidTestImplementation "org.mockito:mockito-core:$mockito"
-    androidTestImplementation "org.mockito:mockito-android:$mockito"
-    androidTestImplementation "org.mockito:mockito-inline:$mockito"
+    testImplementation "org.mockito:mockito-core:$mockito"
+    testImplementation "org.mockito:mockito-android:$mockito"
+    testImplementation "org.mockito:mockito-inline:$mockito"
+    testImplementation 'org.koin:koin-test:1.0.1'
+    testImplementation 'androidx.test.ext:junit:1.1.0'
+    testImplementation 'androidx.arch.core:core-testing:2.0.0'
+    testImplementation 'com.jraska.livedata:testing-ktx:0.6.0'
+    testImplementation 'com.jraska.livedata:testing:0.6.0'
 }

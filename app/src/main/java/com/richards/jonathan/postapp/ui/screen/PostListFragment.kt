@@ -53,4 +53,6 @@ class PostListFragment : BaseFragment(), PostAdapter.Companion.PostItemClicked {
         activity.goToDetailsScreen(post.id)
     }
 
+
+
 }
