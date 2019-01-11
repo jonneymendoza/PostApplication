@@ -16,9 +16,14 @@ interface PostDao {
     @Query("SELECT * FROM post")
     fun getPosts(): LiveData<List<Post>>
 
-    @Query("SELECT post.title AS title, post.body AS body, post.username AS username" +
-            "FROM post, user, " +
-            "WHERE user.id = post.userId")
+//    @Query("SELECT post.title AS title, post.body AS body, post.username AS username" +
+//            "FROM post, user, " +
+//            "WHERE user.id = post.userId")
+    @Query("SELECT post.title, post.body, user.username" +
+            " FROM post" +
+            " INNER JOIN user" +
+            " ON post.userId=user.id" +
+            " WHERE post.id = :postId")
     fun getPostDetails(postId: Int): LiveData<PostDetails>
 
     @Query("SELECT COUNT (*) FROM comment WHERE postId = :postId")

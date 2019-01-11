@@ -40,7 +40,7 @@ class PostDetailsFragment : BaseFragment() {
         viewModel.getPostDetails(postId).observe(this, Observer {
             titleText.text = it.title
             bodyText.text = it.body
-            usernameText.text = it.userName
+            usernameText.text = it.username
         })
 
         viewModel.getCommentCount(postId).observe(this, Observer {
