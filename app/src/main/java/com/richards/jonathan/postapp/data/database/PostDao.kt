@@ -21,10 +21,10 @@ abstract class PostDao {
             " INNER JOIN user" +
             " ON post.userId=user.id" +
             " WHERE post.id = :postId")
-    abstract fun getPostDetails(postId: Int): LiveData<PostDetails>
+    abstract fun getPostDetails(postId: String): LiveData<PostDetails>
 
     @Query("SELECT COUNT (*) FROM comment WHERE postId = :postId")
-    abstract fun getCommentCount(postId: Int): LiveData<Int>
+    abstract fun getCommentCount(postId: String): LiveData<Int>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun savePosts(posts: List<Post>)

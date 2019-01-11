@@ -18,11 +18,11 @@ class PostViewModel constructor(private val getAllDataUseCase: GetAllDataUseCase
         return getPostListUseCase.getPostList()
     }
 
-    fun getPostDetails(postId: Int): LiveData<PostDetails> {
+    fun getPostDetails(postId: String): LiveData<PostDetails> {
         return getPostDetailsUseCase.getPostDetails(postId)
     }
 
-    fun getCommentCount(postId: Int): LiveData<Int> {
+    fun getCommentCount(postId: String): LiveData<Int> {
         return getCommentCountUseCase.getCommentCount(postId)
     }
 

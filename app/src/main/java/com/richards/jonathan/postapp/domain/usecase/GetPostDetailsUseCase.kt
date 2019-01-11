@@ -6,7 +6,7 @@ import com.richards.jonathan.postapp.domain.PostRepositoryContract
 
 class GetPostDetailsUseCase constructor(private val repository: PostRepositoryContract) {
 
-    fun getPostDetails(postId: Int): LiveData<PostDetails> {
+    fun getPostDetails(postId: String): LiveData<PostDetails> {
         return repository.getDetailedPost(postId)
     }
 }

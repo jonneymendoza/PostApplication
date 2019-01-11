@@ -37,7 +37,7 @@ class PostDetailsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val postId = arguments!!.getInt(POST_ID_EXTRA)
+        val postId = arguments!!.getString(POST_ID_EXTRA)
 
         viewModel.getPostDetails(postId).observe(this, Observer {
             it?.let {

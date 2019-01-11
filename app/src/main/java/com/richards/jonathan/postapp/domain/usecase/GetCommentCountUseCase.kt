@@ -5,7 +5,7 @@ import com.richards.jonathan.postapp.domain.PostRepositoryContract
 
 class GetCommentCountUseCase constructor(private val repositoryContract: PostRepositoryContract) {
 
-    fun getCommentCount(postId: Int): LiveData<Int> {
+    fun getCommentCount(postId: String): LiveData<Int> {
         return repositoryContract.getCommentCount(postId)
     }
 }

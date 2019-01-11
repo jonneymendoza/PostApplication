@@ -20,19 +20,6 @@ allprojects {
     }
 }
 
-////https://forums.bignerdranch.com/t/failed-to-instantiate-recyclerview/14701
-//// This is to fix the errors : java.lang.NoClassDefFoundError: Failed resolution of: Landroid/view/View$OnUnhandledKeyEventListener;
-//configurations.all {
-//    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-//        def requested = details.requested
-//        if (requested.group == "com.android.support") {
-//            if (!requested.name.startsWith("multidex")) {
-//                details.useVersion "26.+"
-//            }
-//        }
-//    }
-//}
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class PostRepository constructor(private val networkController: NetworkControllerContract,
                                  private val database: PostDatabase) : PostRepositoryContract {
-    override fun getCommentCount(postId: Int): LiveData<Int> {
+    override fun getCommentCount(postId: String): LiveData<Int> {
         return database.getPostDao().getCommentCount(postId)
     }
 
@@ -19,7 +19,7 @@ class PostRepository constructor(private val networkController: NetworkControlle
         return database.getPostDao().getPosts()
     }
 
-    override fun getDetailedPost(postId: Int): LiveData<PostDetails> {
+    override fun getDetailedPost(postId: String): LiveData<PostDetails> {
         return database.getPostDao().getPostDetails(postId)
     }
 
@@ -33,7 +33,7 @@ class PostRepository constructor(private val networkController: NetworkControlle
                 val responseUsers = networkController.getUsers().await()
                 val responsePost = networkController.getPosts().await()
                 val responseComments = networkController.getComments().await()
-                
+
                 if (responseComments.isSuccessful && responsePost.isSuccessful && responseUsers.isSuccessful) {
                     database.getPostDao().saveAllData(responseUsers.body()!!, responsePost.body()!!, responseComments.body()!!)
                     isComplete.postValue(true)
