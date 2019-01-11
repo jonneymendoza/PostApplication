@@ -27,17 +27,27 @@ class PostRepository constructor(private val networkController: NetworkControlle
 
         val isComplete = MutableLiveData<Boolean>()
 
-//        val postResponse =
-
-
         GlobalScope.launch {
 
-            var responsePost = networkController.getPosts().await()
-            var responseComments = networkController.getComments().await()
-            var responseUsers = networkController.getUsers().await()
+            try {
 
-            if (responseComments.isSuccessful && responsePost.isSuccessful && responseUsers.isSuccessful ){
+            } catch (e: Exception) {
+                e.printStackTrace()
+                //Todo: wrap a error object around this
+                isComplete.postValue(false)
+            }
 
+            val responsePost = networkController.getPosts().await()
+            val responseComments = networkController.getComments().await()
+            val responseUsers = networkController.getUsers().await()
+
+            if (responseComments.isSuccessful && responsePost.isSuccessful && responseUsers.isSuccessful) {
+                database.getPostDao().saveComments(responseComments.body()!!)
+                database.getPostDao().savePosts(responsePost.body()!!)
+                database.getPostDao().saveUsers(responseUsers.body()!!)
+                isComplete.postValue(true)
+            } else {
+                isComplete.postValue(false)
             }
         }
 

@@ -27,7 +27,7 @@ class PostViewModel constructor(private val getAllDataUseCase: GetAllDataUseCase
     }
 
     fun fetchAllData(): LiveData<Boolean> {
-//        return getAllDataUseCase.fetchAllData()
+        return getAllDataUseCase.fetchAllData()
     }
 
 }
