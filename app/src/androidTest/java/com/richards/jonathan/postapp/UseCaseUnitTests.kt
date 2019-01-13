@@ -31,7 +31,7 @@ import org.koin.test.KoinTest
 import org.mockito.Mockito
 
 /**
- * Unit tests for all the use cases createdó
+ * Unit tests for all the use cases created
  */
 
 @RunWith(AndroidJUnit4::class)
@@ -48,6 +48,9 @@ class UseCaseUnitTests : KoinTest {
     val postDatabase: PostDatabase by inject()
 
 
+    /***
+     * Load mocked dependencies and load mocked data into the dataase
+     */
     @Before
     fun setup() {
         startKoin(listOf(testModules(InstrumentationRegistry.getInstrumentation().context)))
@@ -74,6 +77,7 @@ class UseCaseUnitTests : KoinTest {
                 CoroutineStart.DEFAULT,
                 null, { getMockedComments() }))
 
+        //Load data into the database
         val fetchDataLiveData = getAllDataUseCase.fetchAllData()
 
         fetchDataLiveData.test()
