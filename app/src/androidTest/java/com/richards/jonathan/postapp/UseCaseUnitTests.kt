@@ -1,11 +1,14 @@
 package com.richards.jonathan.postapp
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.jraska.livedata.test
 import com.richards.jonathan.postapp.TestData.getMockedComments
 import com.richards.jonathan.postapp.TestData.getMockedPosts
 import com.richards.jonathan.postapp.TestData.getMockedUser
 import com.richards.jonathan.postapp.TestModule.testModules
+import com.richards.jonathan.postapp.data.database.PostDatabase
 import com.richards.jonathan.postapp.data.network.contract.NetworkControllerContract
 import com.richards.jonathan.postapp.domain.usecase.GetAllDataUseCase
 import com.richards.jonathan.postapp.domain.usecase.GetCommentCountUseCase
@@ -20,6 +23,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import org.junit.runner.RunWith
 import org.koin.standalone.StandAloneContext.startKoin
 import org.koin.standalone.StandAloneContext.stopKoin
 import org.koin.standalone.inject
@@ -30,7 +34,7 @@ import org.mockito.Mockito
  * Unit tests for all the use cases createdó
  */
 
-
+@RunWith(AndroidJUnit4::class)
 class UseCaseUnitTests : KoinTest {
 
     @get:Rule
@@ -41,21 +45,23 @@ class UseCaseUnitTests : KoinTest {
     val getPostDetailsUseCase: GetPostDetailsUseCase by inject()
     val getPostListUseCase: GetPostListUseCase by inject()
     val networkController: NetworkControllerContract by inject()
+    val postDatabase: PostDatabase by inject()
 
-    private val testModulesList = listOf(testModules)
 
     @Before
     fun setup() {
-        startKoin(testModulesList)
+        startKoin(listOf(testModules(InstrumentationRegistry.getInstrumentation().context)))
+        loadDataIntoDb()
     }
 
     @After
     fun cleanUp() {
         stopKoin()
+        postDatabase.close()
     }
 
-    @Test
-    fun testGetAllData() {
+
+    private fun loadDataIntoDb() {
         Mockito.`when`(networkController.getUsers()).thenReturn(GlobalScope.async(Dispatchers.Default,
                 CoroutineStart.DEFAULT,
                 null, { getMockedUser() }))

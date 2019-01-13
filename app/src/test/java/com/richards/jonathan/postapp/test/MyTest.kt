@@ -1,4 +1,4 @@
-package com.richards.jonathan.postapp
+package com.richards.jonathan.postapp.test
 
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull

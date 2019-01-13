@@ -2,7 +2,6 @@ package com.richards.jonathan.postapp
 
 import android.content.Context
 import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import com.richards.jonathan.postapp.data.database.PostDatabase
 import com.richards.jonathan.postapp.data.network.contract.NetworkControllerContract
 import com.richards.jonathan.postapp.domain.PostRepository
@@ -16,12 +15,12 @@ import org.koin.experimental.builder.create
 import org.mockito.Mockito
 
 object TestModule {
-    val testModules = module {
+    fun testModules(context: Context) = module {
         single<NetworkControllerContract> {
             Mockito.mock(NetworkControllerContract::class.java)
         }
         single {
-            Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext<Context>(),
+            Room.inMemoryDatabaseBuilder(context,
                     PostDatabase::class.java).allowMainThreadQueries().build()
         }
         single<PostRepositoryContract> { PostRepository(get(), get()) }
