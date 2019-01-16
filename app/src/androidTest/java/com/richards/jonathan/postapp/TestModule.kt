@@ -16,7 +16,7 @@ import org.mockito.Mockito
 
 object TestModule {
     fun testModules(context: Context) = module {
-        single<NetworkControllerContract> {
+        single{
             Mockito.mock(NetworkControllerContract::class.java)
         }
         single {

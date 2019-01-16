@@ -60,7 +60,7 @@ class UseCaseUnitTests : KoinTest {
     @After
     fun cleanUp() {
         stopKoin()
-        postDatabase.close()
+//        postDatabase.close()
     }
 
 

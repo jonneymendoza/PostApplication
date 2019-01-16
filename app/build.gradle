@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'kotlin-allopen'
+
 android {
     compileSdkVersion 28
     testOptions.unitTests.includeAndroidResources = true
@@ -15,8 +17,8 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'com.richards.jonathan.postapp.PostAppRunner'
         testInstrumentationRunnerArguments clearPackageData: 'true'
         buildConfigField "String", "BASE_URL", "\"http://jsonplaceholder.typicode.com/\""
     }
@@ -25,14 +27,17 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug{
+
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    testOptions {
-        execution 'ANDROID_TEST_ORCHESTRATOR'
-    }
+//    testOptions {
+//        execution 'ANDROID_TEST_ORCHESTRATOR'
+//    }
 
     useLibrary 'android.test.runner'
 
@@ -45,9 +50,15 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 
+allOpen {
+    // allows mocking for classes w/o directly opening them for release builds
+    annotation 'com.richards.jonathan.postapp.OpenClass'
+}
+
 dependencies {
     def lifecycle_version = "2.0.0"
     def mockito = "2.21.0"
+    def mockito_android = "2.23.4"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -91,19 +102,25 @@ dependencies {
         exclude group: 'org.mockito:mockito-core'
     }
     androidTestUtil 'androidx.test:orchestrator:1.1.1'
-    androidTestImplementation 'com.github.tmurakami:dexopener:2.0.0'
+//    androidTestImplementation 'com.github.tmurakami:dexopener:2.0.0'
 
     androidTestImplementation 'com.jraska.livedata:testing-ktx:0.6.0'
     androidTestImplementation 'com.jraska.livedata:testing:0.6.0'
 
-    androidTestImplementation "org.mockito:mockito-core:$mockito"
-    androidTestImplementation("org.mockito:mockito-android:$mockito") {
-        exclude group: 'org.mockito'
-    }
+//    androidTestImplementation "org.mockito:mockito-core:$mockito"
+    androidTestImplementation"org.mockito:mockito-android:$mockito_android"
+//        exclude group: 'org.mockito'
+//    }
 
     androidTestImplementation('org.koin:koin-test:1.0.2') {
         exclude group: 'org.mockito'
     }
+
+//    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.21.0'
+
+//    androidTestImplementation ("org.mockito:mockito-inline:$mockito"){
+//        exclude group: 'org.mockito'
+//    }
 
     //unit test
     testImplementation 'junit:junit:4.12'
