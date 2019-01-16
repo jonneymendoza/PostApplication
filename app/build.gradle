@@ -102,7 +102,7 @@ dependencies {
         exclude group: 'org.mockito:mockito-core'
     }
     androidTestUtil 'androidx.test:orchestrator:1.1.1'
-//    androidTestImplementation 'com.github.tmurakami:dexopener:2.0.0'
+    androidTestImplementation 'com.github.tmurakami:dexopener:2.0.0'
 
     androidTestImplementation 'com.jraska.livedata:testing-ktx:0.6.0'
     androidTestImplementation 'com.jraska.livedata:testing:0.6.0'

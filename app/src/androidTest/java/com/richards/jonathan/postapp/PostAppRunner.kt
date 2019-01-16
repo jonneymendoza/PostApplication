@@ -9,6 +9,7 @@ class PostAppRunner : AndroidJUnitRunner() {
 
     override fun newApplication(cl: ClassLoader?, className: String?, context: Context?): Application {
         DexOpener.install(this)
+        System.setProperty("org.mockito.android.target", context!!.cacheDir.absolutePath)
         return super.newApplication(cl, className, context)
     }
 
