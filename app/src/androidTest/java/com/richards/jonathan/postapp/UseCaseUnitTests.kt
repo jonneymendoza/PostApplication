@@ -24,8 +24,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.koin.standalone.StandAloneContext.startKoin
-import org.koin.standalone.StandAloneContext.stopKoin
+import org.koin.standalone.StandAloneContext.loadKoinModules
 import org.koin.standalone.inject
 import org.koin.test.KoinTest
 import org.mockito.Mockito
@@ -53,13 +52,12 @@ class UseCaseUnitTests : KoinTest {
      */
     @Before
     fun setup() {
-        startKoin(listOf(testModules(InstrumentationRegistry.getInstrumentation().context)))
+        loadKoinModules(listOf(testModules(InstrumentationRegistry.getInstrumentation().context)))
         loadDataIntoDb()
     }
 
     @After
     fun cleanUp() {
-        stopKoin()
         postDatabase.close()
     }
 
@@ -81,6 +79,7 @@ class UseCaseUnitTests : KoinTest {
         val fetchDataLiveData = getAllDataUseCase.fetchAllData()
 
         fetchDataLiveData.test()
+                .awaitValue()
                 .assertHasValue()
                 .assertValue(true)
     }
@@ -88,6 +87,7 @@ class UseCaseUnitTests : KoinTest {
     @Test
     fun testGetCommentCount() {
         getCommentCountUseCase.getCommentCount("1").test()
+                .awaitValue()
                 .assertHasValue()
                 .assertValue(3)
     }
@@ -95,6 +95,7 @@ class UseCaseUnitTests : KoinTest {
     @Test
     fun testGetPostList() {
         getPostListUseCase.getPostList().test()
+                .awaitValue()
                 .assertHasValue()
                 .assertValue {
                     it.size == 3
@@ -104,10 +105,11 @@ class UseCaseUnitTests : KoinTest {
     @Test
     fun testGetPostDetails() {
         getPostDetailsUseCase.getPostDetails("2").test()
+                .awaitValue()
                 .assertHasValue()
                 .assertValue {
                     val postDetails = it
-                    postDetails.username == "user3"
+                    postDetails.username == "marky"
                 }
     }
 
